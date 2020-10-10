@@ -59,30 +59,18 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
-<<<<<<< HEAD
-=======
-
->>>>>>> 4a8a86935e994d02ef5e4f77bd4decb694b15c1d
     - name: Clone source code
       working-directory: /workdir
       run: |
         df -hT $PWD
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
-<<<<<<< HEAD
-=======
-
->>>>>>> 4a8a86935e994d02ef5e4f77bd4decb694b15c1d
     - name: Load custom feeds
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
         chmod +x $DIY_P1_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
-<<<<<<< HEAD
-=======
-
->>>>>>> 4a8a86935e994d02ef5e4f77bd4decb694b15c1d
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
 
@@ -96,10 +84,6 @@ jobs:
         chmod +x $DIY_P2_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
-<<<<<<< HEAD
-=======
-
->>>>>>> 4a8a86935e994d02ef5e4f77bd4decb694b15c1d
     - name: SSH connection to Actions
       uses: P3TERX/debugger-action@main
       if: env.SSH_ACTIONS == 'true' || contains(github.event.action, 'ssh')
@@ -122,10 +106,6 @@ jobs:
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "::set-env name=DEVICE_NAME::_$(cat DEVICE_NAME)"
         echo "::set-env name=FILE_DATE::_$(date +"%Y%m%d%H%M")"
-    - name: Check space usage
-      if: (!cancelled())
-      run: df -hT
-
     - name: Check space usage
       if: (!cancelled())
       run: df -hT
